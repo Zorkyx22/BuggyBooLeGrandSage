@@ -5,9 +5,9 @@ import pandas as pd
 from config import DATA_FILE_NAME
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-s", "--source", help="Directory from which to read files", default=os.getcwd())
-parser.add_argument("-d", "--destination", help="Directory in which to save the data", default=os.getcwd())
-parser.add_argument("-f", "--fileType", action="append", help="Target file types. Valid file types are : pdf, txt", choices=['pdf', 'txt'])
+parser.add_argument("-s", "--source", help="Directory from which to read files. Defaults to current directory", default=os.getcwd())
+parser.add_argument("-d", "--destination", help=f"File or directory in which to save the data. If file name is not in path, defaults to current_directory/{DATA_FILE_NAME}. File name must be a .csv file that does not exist.", default=os.getcwd())
+parser.add_argument("-f", "--fileType", action="append", help="Target file types. Valid file types are : pdf, txt. If none are specified, none are read.", choices=['pdf', 'txt'])
 
 args = parser.parse_args()
 
@@ -36,10 +36,11 @@ def readAllFiles(dir, destination, fileTypes):
 	print(f"-=: Saving data to file : {destination}")
 	df = pd.DataFrame(data=rows, columns=["document", "content"])
 	df = df[df["content"].str.split().str.len() > 15]
-	df.to_csv(os.path.join(destination, DATA_FILE_NAME), escapechar="\\")
+	pathToSave = destination if destination.endswith(".csv") else os.path.join(destination, DATA_FILE_NAME)
+	df.to_csv(pathToSave, escapechar="\\")
 	
 if __name__ == "__main__":
-	if os.path.isdir(args.source) and os.path.isdir(args.destination):
+	if os.path.isdir(args.source) and (os.path.isdir(args.destination) or args.destination.endswith(".csv")):
 		readAllFiles(args.source, args.destination, args.fileType)
 	elif os.path.isdir(args.source):
 		print("Specified source was not found.\nExiting...")

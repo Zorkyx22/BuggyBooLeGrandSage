@@ -22,11 +22,12 @@ if __name__ == "__main__":
             response = requests.post(askPath, data=session.json(), headers={"Content-Type": "application/json; charset=utf-8"})
             if response.status_code == 200:
                 response = response.json()['response']
-                print(f"Réponse : {response}")
+                print(f"\nRéponse : {response}")
                 session.history.append(assistant(response))
+            elif response.status_code == 500:
+                print("Erreur du serveur. Avez-vous excédé votre limite de demandes par minute?")
             else:
-                print(f"Bad response -- code {response.status_code}")
-                print(response.content)
+                print("Erreur -- réessayez plus tard")
     except KeyboardInterrupt:
         print("\n" + ("*" * 25) + "\nInterrupted question asking process...")
     print("Exiting...")
