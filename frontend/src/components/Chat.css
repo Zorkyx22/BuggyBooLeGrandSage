@@ -1,0 +1,32 @@
+.Chat {
+  text-align: center;
+
+}
+
+.chat-header {
+  background-color: pink;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(0, 0, 0);
+}
+
+.chat-timeline{
+  width: 100%;
+  display:flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.user-input {
+  display: flex;
+  width: 100%;
+  flex-grow: 0;
+  margin: 5px 10px 5px 10px;
+}
