@@ -16,15 +16,6 @@ client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY,)
 model = SentenceTransformer(ENCODING_MODEL)
 app = FastAPI()
 
-turn_prefix = """
-<|im_start|>user
-"""
-
-turn_suffix = """
-<|im_end|>
-<|im_start|>assistant
-"""
-
 # Build the prompt to give to the OpenAI ChatCompletion software
 def build_prompt(references: list) -> tuple[str, str]:
     references_text = ""
