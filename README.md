@@ -4,7 +4,6 @@ Ce projet a pour but d'utiliser GPT 3.5 pour répondre aux questions des étudia
 ## Installation
 Pour l'instant l'application n'est pas conteneurisée et n'a pas d'interface utilisateur comme tel. Pour cette raison, l'installation se résume à installer python puis à installer les dépendances. Pour installer les dépendances, effectuez la commande 
 `pip install requirements.txt`
-dans le dossier `/backend`
 
 *Pour les ressources extérieures telles que qDrant et OpenAI (toutes les deux utilisées dans le projet) vous devez produire vos propres clés et bases de donnée.*
 
