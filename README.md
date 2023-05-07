@@ -17,7 +17,7 @@ Nous utilisons qDrant pour stocker les informations contenus dans les pdf de cou
 OpenAI permettent l'usage de l'engin GPT 3.5 Turbo ainsi que de plusieurs autres engins de traitement de texte naturel (NLP). Il est possible de créer un compte de développement gratuit sur leur [site](https://platform.openai.com/) et utiliser la clé d'api ainsi obtenue pour effectuer nos demandes à l'engin souhaité. OpenAI restreint présentement les demandes à 3 par minute par compte gratuit, mais en ajoutant une méthode de paiement il est possible d'augmenter ce nombre de demandes.
 
 ## Environnement
-L'application a besoin de plusieurs valeurs et clés pour fonctionner. Pour des raisons de sécurité je n'ai pas inclu mes propres informations sensibles dans le projet. Pour utiliser l'application avec vos propres données, créez un fichier `.env` et insérez-y les informations suivantes :
+L'application a besoin de plusieurs valeurs et clés pour fonctionner. Pour des raisons de sécurité je n'ai pas inclu mes propres informations sensibles dans le projet. Pour utiliser l'application avec vos propres données, créez un fichier `.env` sous le dossier `/backend` et insérez-y les informations suivantes :
 ```
 OPENAI_API_KEY=<Votre clé OpenAi>
 QDRANT_API_KEY=<Votre clé pour la base de données qDrant>
