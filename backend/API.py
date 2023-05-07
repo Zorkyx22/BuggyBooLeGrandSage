@@ -2,7 +2,7 @@ from qdrant_client import QdrantClient
 from sentence_transformers import SentenceTransformer
 import openai
 from fastapi import FastAPI
-from pydantic import BaseModel
+from Body import Body
 from config import (
     OPENAI_API_KEY, 
     QDRANT_API_KEY, 
@@ -24,10 +24,6 @@ turn_suffix = """
 <|im_end|>
 <|im_start|>assistant
 """
-
-class Body(BaseModel):
-    question: str
-    history: str
 
 # Build the prompt to give to the OpenAI ChatCompletion software
 def build_prompt(question: str, references: list, prompt_history: str) -> tuple[str, str]:
@@ -89,7 +85,7 @@ async def ask(body: Body):
                   {"role":"assistant","content":"C'est très simple! Pour imprimer un message à la console en python tu n'as qu'à utiliser la méthode print comme suit : print('Ton message'). Si t'as d'autres questions hésite pas!"},
                   {"role":"user","content":"Comment tu t'appelles?"},
                   {"role":"assistant","content":"Je m'appelle Buggy Boo Le Grand Sage! Je suis un gros hibou rose qui est là pour t'aider dans tes études! Si t'as une question je suis à l'écoute!"},
-                  {"role":"user","content":body.question},],
+                  body.history,],
         max_tokens=350,
         temperature=0.4,
         stop=["<|im_end|>", "<|im_start|>"],

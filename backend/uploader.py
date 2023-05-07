@@ -52,11 +52,11 @@ def encodeAndUpload(path, skip):
                         client.upsert(
                             collection_name=COLLECTION_NAME,
                             points=models.Batch(
-                                ids=[i for i in range(maxIndex + (ctr*batch_size), maxIndex + (ctr*batch_size) + id + 1)],
+                                ids=[i for i in range(maxIndex + (ctr*batch_size), maxIndex + (ctr*batch_size) + len(batch))],
                                 payloads=[
                                     {
                                         "text": row["content"],
-                                        "title": row["document"]
+                                        "title": row["document"],
                                     }
                                     for _, row in df[ctr*batch_size:id+1].iterrows()
                                 ],
