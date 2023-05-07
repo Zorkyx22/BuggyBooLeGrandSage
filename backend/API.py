@@ -1,9 +1,7 @@
-import os
 from qdrant_client import QdrantClient
-from qdrant_client.http import models
 from sentence_transformers import SentenceTransformer
 import openai
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from pydantic import BaseModel
 from config import (
     OPENAI_API_KEY, 
@@ -11,7 +9,6 @@ from config import (
     QDRANT_URL, 
     ENCODING_MODEL,
     COLLECTION_NAME,
-    DATA_FILE_NAME,
 )
 
 openai.api_key = OPENAI_API_KEY
