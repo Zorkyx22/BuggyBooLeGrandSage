@@ -26,7 +26,7 @@ turn_suffix = """
 """
 
 # Build the prompt to give to the OpenAI ChatCompletion software
-def build_prompt(question: str, references: list, prompt_history: str) -> tuple[str, str]:
+def build_prompt(references: list) -> tuple[str, str]:
     references_text = ""
     for reference in references:
         references_text += f"\n{reference.payload['title']}: {reference.payload['text']}"
@@ -47,13 +47,12 @@ def build_prompt(question: str, references: list, prompt_history: str) -> tuple[
     return prompt, references
 
 @app.get("/")
-def sendInfo():
+def root():
     return {"response":"Please send your requests to /ask with the required information in the body"}
 
 # Find the resources to give to OpenAI's ChatCompletion engine and request an answer using the prompt built with the build_prompt method.
 @app.post("/ask")
-async def ask(body: Body):
-
+def ask(body: Body):
     query = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{"role":"system", "content":"You must answer briefly and precisely with facts."},
@@ -74,7 +73,7 @@ async def ask(body: Body):
         append_payload=True,
     )
 
-    prompt, references = build_prompt(body.question, similar_docs, body.history)
+    prompt, references = build_prompt(similar_docs)
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -85,7 +84,7 @@ async def ask(body: Body):
                   {"role":"assistant","content":"C'est très simple! Pour imprimer un message à la console en python tu n'as qu'à utiliser la méthode print comme suit : print('Ton message'). Si t'as d'autres questions hésite pas!"},
                   {"role":"user","content":"Comment tu t'appelles?"},
                   {"role":"assistant","content":"Je m'appelle Buggy Boo Le Grand Sage! Je suis un gros hibou rose qui est là pour t'aider dans tes études! Si t'as une question je suis à l'écoute!"},
-                  body.history,],
+        ] + body.history,
         max_tokens=350,
         temperature=0.4,
         stop=["<|im_end|>", "<|im_start|>"],
