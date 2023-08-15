@@ -24,12 +24,13 @@ def readAllFiles(dir, destination, fileTypes):
 					print(f"-=: Reading Pdf File : {absPath}", end="")
 					pdfReader = PdfReader(absPath)
 					for page in pdfReader.pages:
-						readContent.extend(page.extract_text().split("\n"))
+						readContent.extend(page.extract_text())
+					readContent = split_text(readContent)
 				elif file.endswith(".txt") and "txt" in fileTypes:
 					print(f"-=: Reading Txt File : {absPath}", end="")
 					with open(absPath, 'rb') as f:
-						readContent = f.readLines()
-				print(f" -- Read {len(readContent)} lines")
+						readContent = split_text(f.readLines())
+				print(f" -- Read {len(readContent)} sections")
 				for line in readContent:
 					if(line.strip()!=""):
 						rows.append((file, line))
@@ -39,6 +40,21 @@ def readAllFiles(dir, destination, fileTypes):
 	pathToSave = destination if destination.endswith(".csv") else os.path.join(destination, DATA_FILE_NAME)
 	df.to_csv(pathToSave, escapechar="\\")
 	
+
+def split_text(pages):
+	text = " ".join(pages)
+	CHAR_MAX = 1000
+	OVERLAPP = 200
+	position = 0
+	sections = []
+
+	while position < len(text):
+		sections.append(text[position:position+CHAR_MAX])
+		position += CHAR_MAX - OVERLAPP
+	return sections
+	# Devrait optimiser pour terminer sur un sentence_ending ou un word break
+
+
 if __name__ == "__main__":
 	if os.path.isdir(args.source) and (os.path.isdir(args.destination) or args.destination.endswith(".csv")):
 		readAllFiles(args.source, args.destination, args.fileType)

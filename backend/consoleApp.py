@@ -1,33 +1,27 @@
-import json
-from typing import List
-from Body import Body
 import requests
+from Body import Body
 from config import BACKEND
 
-def user(message):
+def CreateUserMessage(message):
     return {"role":"user","content":message}
 
-def assistant(message):
+def CreateAssistantMessage(message):
     return {"role":"assistant","content":message}
 
 if __name__ == "__main__":
-    print("-=|===== Pour quitter, appuyez sur CTRL+C =====|=-")
-    session = Body(question="", history=[])
+    print("-=[ Pour quitter, appuyez sur CTRL+C ]=-")
+    clientConversation = []
     askPath = BACKEND + "/ask"
     try:
         while(True):
-            userQuestion=input(f"\n{('*' * 50)}\n\nVotre question pour le chatbot : ")
-            session.question = userQuestion
-            session.history.append(user(userQuestion))
-            response = requests.post(askPath, data=session.json(), headers={"Content-Type": "application/json; charset=utf-8"})
-            if response.status_code == 200:
-                response = response.json()['response']
-                print(f"\nRéponse : {response}")
-                session.history.append(assistant(response))
-            elif response.status_code == 500:
-                print("Erreur du serveur. Avez-vous excédé votre limite de demandes par minute?")
+            user=input(f"\n{('*' * 50)}\n\nVotre question pour le chatbot : ")
+            clientConversation.append(CreateUserMessage(user))
+            assistant = requests.post(askPath, json=Body(conversation=clientConversation).dict(), headers={"Content-Type": "application/json; charset=utf-8"})
+            if assistant.status_code == 200:
+                textResponse = assistant.json()['response']
+                print(f"\nRéponse : {textResponse}")
+                clientConversation.append(CreateAssistantMessage(textResponse))
             else:
-                print("Erreur -- réessayez plus tard")
+                print("-=[ Une erreur est survenue ]=-")
     except KeyboardInterrupt:
-        print("\n" + ("*" * 25) + "\nInterrupted question asking process...")
-    print("Exiting...")
+        print("\n" + ("*" * 25) + "\n-=[ Au revoir! ]=-")
