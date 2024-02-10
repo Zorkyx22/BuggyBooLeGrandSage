@@ -1,32 +1,90 @@
 .Chat {
   text-align: center;
-
-}
-
-.chat-header {
-  background-color: pink;
-  min-height: 100vh;
-  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: rgb(0, 0, 0);
+  height: 100vh;
+  background-color: #19215c;
 }
 
-.chat-timeline{
-  width: 100%;
-  display:flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  justify-content: center;
+.chat-timeline {
   flex-grow: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.user-message,
+.assistant-message {
+  display: block;
+  display:flex;
+  flex-direction: column;
+  max-width: 70%;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem auto;
+  border-radius: 1rem;
+  font-weight: bold;
+}
+
+.user-message {
+  background-color: #f542b6;
+  color: #000;
+  margin-left:20%;
+}
+
+.assistant-message {
+  background-color: #f542b6;
+  color: #fff;
+  margin-right:20%;
+}
+
+.user-message-head,
+.assistant-message-head {
+  color:#000;
+  font-weight: bolder;
+}
+
+.user-message-head {
+  align-self: flex-end;
+  margin-right:1rem;
+}
+
+.assistant-message-head {
+  align-self: flex-start;
+  margin-left:1rem;
+}
+
+.message-bar {
+  margin-left:0px;
+  margin-right:0px;
+  margin-top: 0.5rem;
+  margin-bottom:0.5rem;
+  width:100%;
+}
+
+.user-input-form {
+  display: flex;
+  padding: 1rem;
+  min-width: 80%;
+  align-self:center;
 }
 
 .user-input {
-  display: flex;
-  width: 100%;
-  flex-grow: 0;
-  margin: 5px 10px 5px 10px;
+  flex-grow: 1;
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+  outline: none;
+}
+
+button {
+  background-color: #f542b6;
+  color: #fff;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4db8e8;
 }
